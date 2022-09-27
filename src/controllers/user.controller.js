@@ -4,6 +4,9 @@ const deleteFile = require("../helpers/deleteFile");
 const uploadGoogleDrive = require("../helpers/uploadGoogleDrive");
 const deleteGoogleDrive = require("../helpers/deleteGoogleDrive");
 const createPagination = require("../helpers/createPagination");
+const axios = require("axios")
+const crypto = require('crypto');
+const oauth1a = require('oauth-1.0a');
 
 module.exports = {
 	getListBuyer: async (req, res) => {
@@ -288,4 +291,69 @@ module.exports = {
 			});
 		}
 	},
+	getTwitterTweets: (req, res) => {
+		try {
+			const { search } = req.query
+			const OauthHelper = (request) => {
+				const OAuthOptions = {
+					algorithm: 'HMAC-SHA1',
+					key: 'wo1C8RELro6wF8htB3IqIZANF',
+					secret: 'AZTcfIf4ct30Ycz6LaYqNxn5ZU0TcmEXnpeyWUw3UbYtiivQ3U',
+					token: '4474795753-IbCtklih8n2RhNulueEJUYR5oCg1rmpnHsTtg89',
+					tokenSecret: 'jHVIqW7hMQa1qjAU0kRZBpJ4OGqwmEau5vhxQmqVdAoUP',
+				};
+				const oauth = oauth1a({
+					consumer: { key: OAuthOptions.key, secret: OAuthOptions.secret },
+					signature_method: 'HMAC-SHA1',
+					hash_function(base_string, key) {
+							return crypto
+									.createHmac('sha1', key)
+									.update(base_string)
+									.digest('base64')
+					},
+				})
+				const authorization = oauth.authorize(request, {
+					key: OAuthOptions.token,
+					secret: OAuthOptions.tokenSecret,
+				});
+				return oauth.toHeader(authorization);
+			}
+			const request = {
+				url: `https://api.twitter.com/1.1/search/tweets.json?q=${encodeURIComponent(search)}&result_type=latest&count=10&include_rts=false&exclude_replies=true`,
+				method: 'GET'
+			};
+			console.log(request)
+			const authHeader = OauthHelper(request)
+			axios
+      .get(
+        request.url,
+				{
+					headers: authHeader
+				}
+      )
+      .then((result) => {
+        success(res, {
+					code: 200,
+					status: "success",
+					message: "berhasil mendapatkan response",
+					data: result.data
+				})
+      })
+      .catch((error) => {
+        failed(res, {
+					code: 500,
+					status: "error",
+					message: "gagal mendapatkan response",
+					error: error.message
+				})
+      });
+		} catch (error) {
+			failed(res, {
+				code: 500,
+				status: "error",
+				message: "Internal Server Error",
+				error: error.message
+			})
+		}
+	}
 };
