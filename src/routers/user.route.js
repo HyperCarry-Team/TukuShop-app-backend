@@ -1,7 +1,7 @@
 const express = require("express");
 const validation = require("../validations/user.validation");
 const runValidation = require("../middleware/runValidation");
-const { editProfileBuyer, editProfileSeller, getListBuyer, getListSeller, getDetailUser, getListChatSeller, getListChatBuyer, getTwitterTweets } = require("../controllers/user.controller");
+const { editProfileBuyer, editProfileSeller, getListBuyer, getListSeller, getDetailUser, getListChatSeller, getListChatBuyer, getTwitterTweets, getInstagramSearch } = require("../controllers/user.controller");
 const jwtAuth = require("../middleware/jwtAuth");
 const upload = require("../middleware/upload");
 const {onlyAdmin, myself, onlyBuyer, onlySeller} = require("../middleware/authorization");
@@ -17,5 +17,6 @@ router
 	.put("/user/:id/buyer", jwtAuth, myself, upload, validation.buyer, runValidation, editProfileBuyer)
 	.put("/user/:id/seller", jwtAuth, myself, upload, validation.seller, runValidation, editProfileSeller)
 	.get("/crawl-twitter", getTwitterTweets)
+	.get("/crawl-instagram", getInstagramSearch)
 
 module.exports = router;

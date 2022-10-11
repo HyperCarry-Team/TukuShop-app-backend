@@ -355,5 +355,35 @@ module.exports = {
 				error: error.message
 			})
 		}
+	},
+	getInstagramSearch: (req, res) => {
+		try {
+			const { search } = req.query
+			const url = `https://www.instagram.com/web/search/topsearch/?context=blended&query=${encodeURIComponent(search)}`
+			axios.get(url)
+      .then((result) => {
+        success(res, {
+					code: 200,
+					status: "success",
+					message: "berhasil mendapatkan response",
+					data: result.data
+				})
+      })
+      .catch((error) => {
+        failed(res, {
+					code: 500,
+					status: "error",
+					message: "gagal mendapatkan response",
+					error: error.message
+				})
+      });
+		} catch (error) {
+			failed(res, {
+				code: 500,
+				status: "error",
+				message: "Internal Server Error",
+				error: error.message
+			})
+		}
 	}
 };
