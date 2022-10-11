@@ -359,7 +359,8 @@ module.exports = {
 	getInstagramSearch: (req, res) => {
 		try {
 			const { search } = req.query
-			const url = `https://www.instagram.com/web/search/topsearch/?context=blended&query=${encodeURIComponent(search)}`
+			const url = `https://i.instagram.com/api/v1/web/search/topsearch/?context=blended&query=${encodeURIComponent(search)}`
+			console.log(url)
 			axios.get(url)
       .then((result) => {
         success(res, {
@@ -370,7 +371,7 @@ module.exports = {
 				})
       })
       .catch((error) => {
-				console.log(error.response)
+				console.log(error.response.data)
         failed(res, {
 					code: 500,
 					status: "error",
