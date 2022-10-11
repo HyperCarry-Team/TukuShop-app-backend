@@ -370,6 +370,7 @@ module.exports = {
 				})
       })
       .catch((error) => {
+				console.log(error.response)
         failed(res, {
 					code: 500,
 					status: "error",
