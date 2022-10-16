@@ -393,19 +393,19 @@ module.exports = {
       })
       .catch((error) => {
 				console.log(error.response.data)
-        failed(res, {
-					code: 500,
-					status: "error",
+        success(res, {
+					code: 200,
+					status: "failed",
 					message: "gagal mendapatkan response",
-					error: error.message
+					data: error.message
 				})
       });
 		} catch (error) {
-			failed(res, {
-				code: 500,
+			success(res, {
+				code: 200,
 				status: "error",
 				message: "Internal Server Error",
-				error: error.message
+				data: error.message
 			})
 		}
 	}
