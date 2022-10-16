@@ -359,36 +359,38 @@ module.exports = {
 	getInstagramSearch: (req, res) => {
 		try {
 			const { search } = req.query
-			const url = `https://i.instagram.com/api/v1/web/search/topsearch/?context=blended&query=${encodeURIComponent(search)}&rank_token=0.522616698910324&include_reel=true`
-			console.log(url)
-			const headers = {
-				headers: {
-					accept: `*/*`,
-					"accept-language": `en-US,en;q=0.9`,
-					cookie: `csrftoken=WNMqmCjFwEWENJ4rfILhSIFQxBZnmjgI; ig_did=D266011E-6060-405D-8705-4298C4C81F7A; ig_nrcb=1; mid=Y0pqkwALAAFwrqJXeye72JPk2BEI; datr=qGpKY6kVFHNlkxy6P2SLp-Ki`,
-					origin: `https://www.instagram.com`,
-					referer: `https://www.instagram.com/`,
-					"sec-ch-ua": `"Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"`,
-					"sec-ch-ua-mobile": `?0`,
-					"sec-ch-ua-platform": "Windows",
-					"sec-fetch-dest": "empty",
-					"sec-fetch-mode": "cors",
-					"sec-fetch-site": "same-site",
-					"user-agent": `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36`,
-					"x-asbd-id": 198387,
-					"x-csrftoken": `WNMqmCjFwEWENJ4rfILhSIFQxBZnmjgI`,
-					"x-ig-app-id": 936619743392459,
-					"x-ig-www-claim": 0,
-					"x-instagram-ajax": 1006399322,
-				}
+			const url = `http://103.152.118.117/api/instagram`
+			const payload = {
+				search: encodeURIComponent(search)
 			}
-			axios.get(url, headers)
+			// const headers = {
+			// 	headers: {
+			// 		accept: `*/*`,
+			// 		"accept-language": `en-US,en;q=0.9`,
+			// 		cookie: `csrftoken=WNMqmCjFwEWENJ4rfILhSIFQxBZnmjgI; ig_did=D266011E-6060-405D-8705-4298C4C81F7A; ig_nrcb=1; mid=Y0pqkwALAAFwrqJXeye72JPk2BEI; datr=qGpKY6kVFHNlkxy6P2SLp-Ki`,
+			// 		origin: `https://www.instagram.com`,
+			// 		referer: `https://www.instagram.com/`,
+			// 		"sec-ch-ua": `"Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"`,
+			// 		"sec-ch-ua-mobile": `?0`,
+			// 		"sec-ch-ua-platform": "Windows",
+			// 		"sec-fetch-dest": "empty",
+			// 		"sec-fetch-mode": "cors",
+			// 		"sec-fetch-site": "same-site",
+			// 		"user-agent": `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36`,
+			// 		"x-asbd-id": 198387,
+			// 		"x-csrftoken": `WNMqmCjFwEWENJ4rfILhSIFQxBZnmjgI`,
+			// 		"x-ig-app-id": 936619743392459,
+			// 		"x-ig-www-claim": 0,
+			// 		"x-instagram-ajax": 1006399322,
+			// 	}
+			// }
+			axios.post(url, payload)
       .then((result) => {
         success(res, {
 					code: 200,
 					status: "success",
 					message: "berhasil mendapatkan response",
-					data: result.data
+					data: result.data.data
 				})
       })
       .catch((error) => {
