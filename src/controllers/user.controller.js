@@ -319,7 +319,7 @@ module.exports = {
 				return oauth.toHeader(authorization);
 			}
 			const request = {
-				url: `https://api.twitter.com/1.1/search/tweets.json?q=${encodeURIComponent(search)}&result_type=latest&count=10&include_rts=false&exclude_replies=true`,
+				url: `https://api.twitter.com/1.1/search/tweets.json?q=${encodeURIComponent(search)}&result_type=latest&count=15&include_rts=false&exclude_replies=true`,
 				method: 'GET'
 			};
 			console.log(request)
@@ -359,52 +359,56 @@ module.exports = {
 	getInstagramSearch: (req, res) => {
 		try {
 			const { search } = req.query
-			const url = `http://103.152.118.117/api/instagram`
-			const payload = {
-				search: encodeURIComponent(search)
-			}
-			// const headers = {
-			// 	headers: {
-			// 		accept: `*/*`,
-			// 		"accept-language": `en-US,en;q=0.9`,
-			// 		cookie: `csrftoken=WNMqmCjFwEWENJ4rfILhSIFQxBZnmjgI; ig_did=D266011E-6060-405D-8705-4298C4C81F7A; ig_nrcb=1; mid=Y0pqkwALAAFwrqJXeye72JPk2BEI; datr=qGpKY6kVFHNlkxy6P2SLp-Ki`,
-			// 		origin: `https://www.instagram.com`,
-			// 		referer: `https://www.instagram.com/`,
-			// 		"sec-ch-ua": `"Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"`,
-			// 		"sec-ch-ua-mobile": `?0`,
-			// 		"sec-ch-ua-platform": "Windows",
-			// 		"sec-fetch-dest": "empty",
-			// 		"sec-fetch-mode": "cors",
-			// 		"sec-fetch-site": "same-site",
-			// 		"user-agent": `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36`,
-			// 		"x-asbd-id": 198387,
-			// 		"x-csrftoken": `WNMqmCjFwEWENJ4rfILhSIFQxBZnmjgI`,
-			// 		"x-ig-app-id": 936619743392459,
-			// 		"x-ig-www-claim": 0,
-			// 		"x-instagram-ajax": 1006399322,
-			// 	}
+			// const url = `http://103.152.118.117/api/instagram`
+			const url = `https://www.instagram.com/web/search/topsearch/?context=blended&query=${encodeURIComponent(search)}&rank_token=0.3976291139390087&include_reel=true`
+			// const payload = {
+			// 	search: encodeURIComponent(search)
 			// }
-			axios.post(url, payload)
+			const headers = {
+				headers: {
+					accept: `*/*`,
+					"accept-language": `en-US,en;q=0.9`,
+					cookie: "ig_did=61E48D8E-111B-4A16-BCD0-EC567D0A5358; mid=YX-HXQALAAGKorCOC0puXkUsy_H8; fbm_124024574287414=base_domain=.instagram.com; datr=lGnCYbIYUGYDkayAQzyzh33z; csrftoken=RNVNkHR4DN7Ogxw6Zj8OTAvfYQKNYU53; ds_user_id=6157404468; shbid=\"14805\0546157404468\0541699286046:01f7b26418dede9b6eaed4325db4aaafb6a7b03cb74c84172e2899db2828d7eb9f20a443\"; shbts=\"1667750046\0546157404468\0541699286046:01f7ebafbdc8d98f709b1deb8c0af8403dfc2cccc5fb1aeb9f84273d4055c99a7f748f43\"; sessionid=6157404468%3AUCPutOKVJF85de%3A20%3AAYdMIBubRx5duhGSKmEgu70FglTjEpm5SI1kBJ9Y2dY; fbsr_124024574287414=GqFueLycHDYHqqI6QsW0EhoUIlFxyARDYWTws7gs79M.eyJ1c2VyX2lkIjoiMTAwMDAxNjE5MTcyMDgxIiwiY29kZSI6IkFRRFZjSWFoNHRFNnN4Q1FObHI1SFBuSjJHdzlFMFE4RVhfWnhzVGFLa0VtRmFGWFZJN2xwMHRIWlN3bHdfVTZqV09kR29qYmgteDBncU9QUFJKZnUzOUxZNXVVNWlTa0pLN3ZQcHptcFRmT1RGcE5aU0JaZXRrRldoeEU3NEZ4VU9ZMlNaME5UbHlSSXk4VTF1RHdqRWlwdk9FaDZYQzBPZ3Q5U2tfVXdrdkZsTDY4aVNaTUdFQVhfVmJSMFdjWTZ0b1pib3R3M0kwX0ZJcXFkVGtPV1lDbUVfbGVpMjdvb1FrNzQ0NDlOMTVnWkt3WC1HampMeElHY2FEV1Nxbms1NVdDZkdYX21ndGM5SU1LOUkwUmdVN1ZLLTdmeWpoTi1hTTBRUnF5Y3hJeHVKbU5xQzZmRFQ4LVZ5bWtlS295bE1wcmd6VWNEZjNrYjY1SmdtT3Ftc3dwIiwib2F1dGhfdG9rZW4iOiJFQUFCd3pMaXhuallCQURsRjhWTENFUEhRVEVDWEd4MXBlSGU0OERLaWxaQkE5a2xJdnpHaFk0Z0NYMkNhWkFOYWRGTk1PV0diU1hLcjhPa1pCcW5jaXpkTkwwcmoxQ1dvV0RqVzdxZ3Z1T1NEaTBTWkJoYUh3TjBVN0N2aTZKME5pWkJFTWN1bVhZU1pCdVZkbm5jUW5sajRFNFY3ODh4eXRYNHZYaU1FU20weXlTRExzZHRkNlhXWkFnQ2NqeUEzWkNJWkQiLCJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImlzc3VlZF9hdCI6MTY2NzkwODQ4MH0; rur=\"CCO\0546157404468\0541699444505:01f7e92aa7dc0a9f21c942741c84a0314607e9d0003783f109fa75532193546600f1b8d3",
+					origin: `https://www.instagram.com`,
+					referer: `https://www.instagram.com/`,
+					"sec-ch-ua": `"Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"`,
+					"sec-ch-ua-mobile": `?0`,
+					"sec-ch-ua-platform": "Windows",
+					"sec-fetch-dest": "empty",
+					"sec-fetch-mode": "cors",
+					"sec-fetch-site": "same-site",
+					"user-agent": `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36`,
+					"x-asbd-id": 198387,
+					"x-csrftoken": `RNVNkHR4DN7Ogxw6Zj8OTAvfYQKNYU53`,
+					"x-ig-app-id": 936619743392459,
+					"x-ig-www-claim": `hmac.AR0uJkSF2CV6vZHTxGLigA3BemqUa91fYfED3KW6xWkBxCJi`,
+					"x-instagram-ajax": `3aeb04d1923b`,
+					"x-requested-with": "XMLHttpRequest"
+				}
+			}
+			// axios.post(url, payload)
+			axios.get(url, headers)
       .then((result) => {
+				console.log(result.data);
         success(res, {
 					code: 200,
 					status: "success",
 					message: "berhasil mendapatkan response",
-					data: result.data.data
+					data: result.data
 				})
       })
       .catch((error) => {
 				console.log(error.response.data)
-        failed(res, {
-					code: 500,
+        success(res, {
+					code: 200,
 					status: "error",
 					message: "gagal mendapatkan response",
 					error: error.message
 				})
       });
 		} catch (error) {
-			failed(res, {
-				code: 500,
+			success(res, {
+				code: 200,
 				status: "error",
 				message: "Internal Server Error",
 				error: error.message
